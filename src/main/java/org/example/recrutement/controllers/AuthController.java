@@ -1,7 +1,7 @@
 package org.example.recrutement.controllers;
 
-import org.example.recrutement.dto.JwtRequest;
-import org.example.recrutement.dto.JwtResponse;
+import org.example.recrutement.dto.AuthenticationRequest;
+import org.example.recrutement.dto.AuthenticationResponse;
 import org.example.recrutement.entities.User;
 import org.example.recrutement.mappers.UserMapper;
 import org.example.recrutement.repositories.UserRepository;
@@ -33,11 +33,11 @@ public class AuthController {
     private UserMapper userMapper;
 
     @PostMapping("/login")
-    public JwtResponse authenticate(@RequestBody JwtRequest jwtRequest) {
-        authmanager.authenticate(new UsernamePasswordAuthenticationToken(jwtRequest.getUsername(), jwtRequest.getPassword()));
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getUsername());
+    public AuthenticationResponse authenticate(@RequestBody AuthenticationRequest authenticationRequest) {
+        authmanager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtUtility.generateToken(userDetails);
-        User user = userRepo.findByUsername(jwtRequest.getUsername());
-        return new JwtResponse(token, userMapper.toDTO(user));
+        User user = userRepo.findByUsername(authenticationRequest.getUsername());
+        return new AuthenticationResponse(token, userMapper.toDTO(user));
     }
 }

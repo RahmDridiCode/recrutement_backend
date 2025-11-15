@@ -34,8 +34,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO updateUser(UserDTO userDTO) {
-        User updatedUser = userRepository.save(userMapper.toEntity(userDTO));
+    public UserDTO updateUser(User user) {
+        User updatedUser = userRepository.save(user);
         return userMapper.toDTO(updatedUser);
     }
 
@@ -69,13 +69,35 @@ public class UserServiceImpl implements UserService {
                 .map(userMapper::toDTO)
                 .collect(Collectors.toList());
     }
-
+    /*
     @Override
-    public UserDTO findUser(Long id) {
+    public UserDTO findUserDTO(Long id) {
         return userRepository.findById(id)
                 .map(userMapper::toDTO)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
     }
+     */
+    public User findUser(Long id){
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé avec l'id " + id));
+    }
+
+
+    @Override
+    public void updatePassword(String email, String newPassword) {
+        User user = userRepository.findByUsername(email);
+        if (user != null) {
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+        }
+    }
+
+    // Recherche un utilisateur par email
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByUsername(email);
+    }
+
 
 
 

@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class JwtRequest {
+public class AuthenticationRequest {
     private String username;
     private String password;
 }

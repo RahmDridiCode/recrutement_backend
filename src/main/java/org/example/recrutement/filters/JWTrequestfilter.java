@@ -29,7 +29,7 @@ public class JWTrequestfilter extends OncePerRequestFilter {
 
         // Ignorer les endpoints publics
         String path = request.getServletPath();
-        if (path.equals("/login") || path.equals("register")) {
+        if (path.equals("/login") || path.equals("register")|| path.equals("/forgot-password") || path.equals("/reset-password")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -52,6 +52,8 @@ public class JWTrequestfilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(upat);
             }
         }
-        filterChain.doFilter (request,response);
+        filterChain.doFilter (
+
+                request,response);
     }
 }

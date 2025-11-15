@@ -61,10 +61,11 @@ public class SecurityConfigurer {
                         return config;
                     });
                 })
-
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/register", "/offre/list/", "/public/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/login", "/register", "/offre/list/","/forgot-password","/reset-password", "/public/**")
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated()
                 )
                 .sessionManagement(sess -> sess
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
